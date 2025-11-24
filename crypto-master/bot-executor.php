@@ -2,8 +2,8 @@
 /**
  * Bot Executor - Automated Trading Bot Engine
  * 
- * Run this script via cron job every 5 minutes:
- * */5 * * * * /usr/bin/php /path/to/bot-executor.php >> /path/to/logs/bot-executor.log 2>&1
+ * Run this script via cron job every 5 minutes (replace with actual crontab entry):
+ * @code 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/bin/php /path/to/bot-executor.php >> /path/to/logs/bot-executor.log 2>&1
  * 
  * Windows Task Scheduler:
  * C:\php\php.exe C:\path\to\bot-executor.php
