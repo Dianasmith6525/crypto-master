@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .trade-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .trade-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .price-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .price-value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .trade-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .trade-tab {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .trade-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        .trade-tab.buy {
+            border-color: #4CAF50;
+        }
+        .trade-tab.buy.active {
+            background: #4CAF50;
+        }
+        .trade-tab.sell {
+            border-color: #dc2626;
+        }
+        .trade-tab.sell.active {
+            background: #dc2626;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .trade-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .buy-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .buy-btn:hover {
+            background: #45a049;
+        }
+        .sell-btn {
+            background: #dc2626;
+            color: white;
+        }
+        .sell-btn:hover {
+            background: #b91c1c;
+        }
+        .balance-info {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .crypto-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .crypto-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .crypto-option.active {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .crypto-option img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+        }
+        .summary-box {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-section clearfix">
+        <div class="container-fluid">
+            <a href="index.html" class="site-logo">
+                <img src="img/logo.png" alt="">
+            </a>
+            <nav class="main-menu">
+                <ul class="menu-list">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="trade.html" class="active">Trade</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="index.html">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="trade-container">
+        <h1 style="margin-bottom: 30px;">Trade Cryptocurrency</h1>
+
+        <!-- Crypto Selector -->
+        <div class="crypto-selector">
+            <div class="crypto-option active" data-crypto="bitcoin">
+                <img src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png" alt="Bitcoin">
+                <div><strong>Bitcoin</strong></div>
+                <div style="font-size: 12px; color: #666;">BTC</div>
+            </div>
+            <div class="crypto-option" data-crypto="ethereum">
+                <img src="https://assets.coingecko.com/coins/images/279/large/ethereum.png" alt="Ethereum">
+                <div><strong>Ethereum</strong></div>
+                <div style="font-size: 12px; color: #666;">ETH</div>
+            </div>
+            <div class="crypto-option" data-crypto="litecoin">
+                <img src="https://assets.coingecko.com/coins/images/2/large/litecoin.png" alt="Litecoin">
+                <div><strong>Litecoin</strong></div>
+                <div style="font-size: 12px; color: #666;">LTC</div>
+            </div>
+            <div class="crypto-option" data-crypto="ripple">
+                <img src="https://assets.coingecko.com/coins/images/44/large/xrp.png" alt="XRP">
+                <div><strong>XRP</strong></div>
+                <div style="font-size: 12px; color: #666;">XRP</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Trading Form -->
+            <div class="col-lg-8">
+                <div class="trade-card">
+                    <!-- Current Price Display -->
+                    <div class="price-display">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Current Price</div>
+                        <div class="price-value" id="current-trade-price">$0.00</div>
+                        <div id="price-change-display" style="font-size: 16px; margin-top: 10px;">
+                            <span id="change-indicator">---</span>
+                        </div>
+                    </div>
+
+                    <!-- Buy/Sell Tabs -->
+                    <div class="trade-tabs">
+                        <div class="trade-tab buy active" data-type="buy">
+                            <i class="fa fa-arrow-up"></i> Buy
+                        </div>
+                        <div class="trade-tab sell" data-type="sell">
+                            <i class="fa fa-arrow-down"></i> Sell
+                        </div>
+                    </div>
+
+                    <!-- Balance Info -->
+                    <div class="balance-info">
+                        <div class="summary-row">
+                            <span>USD Balance:</span>
+                            <strong id="usd-balance">$10,000.00</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span id="crypto-balance-label">BTC Balance:</span>
+                            <strong id="crypto-balance">0.0000</strong>
+                        </div>
+                    </div>
+
+                    <!-- Trade Form -->
+                    <form id="trade-form">
+                        <div class="form-group">
+                            <label>Amount (USD)</label>
+                            <input type="number" class="form-control" id="amount-usd" placeholder="Enter amount in USD" step="0.01" min="10" required>
+                            <small style="color: #666; font-size: 12px;">Min: $10</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="crypto-amount-label">Amount (BTC)</label>
+                            <input type="number" class="form-control" id="amount-crypto" placeholder="0.0000" step="0.00000001" readonly>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="summary-box">
+                            <h4 style="margin-bottom: 15px;">Order Summary</h4>
+                            <div class="summary-row">
+                                <span>Type:</span>
+                                <strong id="summary-type">Market Buy</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>Price per coin:</span>
+                                <strong id="summary-price">$0.00</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>Trading Fee (0.1%):</span>
+                                <strong id="summary-fee">$0.00</strong>
+                            </div>
+                            <div class="summary-row" style="padding-top: 10px; border-top: 2px solid #e0e0e0; margin-top: 10px;">
+                                <span><strong>Total:</strong></span>
+                                <strong id="summary-total" style="color: #667eea; font-size: 18px;">$0.00</strong>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="trade-btn buy-btn" id="trade-submit-btn">
+                            <i class="fa fa-check-circle"></i> Place Buy Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Recent Trades -->
+            <div class="col-lg-4">
+                <div class="trade-card">
+                    <h3 style="margin-bottom: 20px;">Recent Trades</h3>
+                    <div id="recent-trades">
+                        <p style="text-align: center; color: #999; padding: 20px;">No recent trades</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        let selectedCrypto = 'bitcoin';
+        let currentPrice = 0;
+        let tradeType = 'buy';
+        let priceInterval = null;
+
+        const cryptoNames = {
+            bitcoin: 'BTC',
+            ethereum: 'ETH',
+            litecoin: 'LTC',
+            ripple: 'XRP'
+        };
+
+        // Fetch current price
+        function fetchPrice() {
+            fetch(`api/get-prices.php?crypto=${selectedCrypto}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        currentPrice = data.data.usd;
+                        const change = data.data.usd_24h_change || 0;
+                        
+                        $('#current-trade-price').text('$' + currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+                        $('#summary-price').text('$' + currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+                        
+                        const arrow = change >= 0 ? '↑' : '↓';
+                        const color = change >= 0 ? '#4CAF50' : '#dc2626';
+                        $('#change-indicator').html(`<span style="color: ${color};">${arrow} ${Math.abs(change).toFixed(2)}% (24h)</span>`);
+                        
+                        calculateTrade();
+                    }
+                })
+                .catch(err => console.error('Price fetch error:', err));
+        }
+
+        // Calculate trade amounts
+        function calculateTrade() {
+            const usdAmount = parseFloat($('#amount-usd').val()) || 0;
+            if (usdAmount > 0 && currentPrice > 0) {
+                const cryptoAmount = usdAmount / currentPrice;
+                const fee = usdAmount * 0.001; // 0.1% fee
+                const total = tradeType === 'buy' ? usdAmount + fee : usdAmount - fee;
+                
+                $('#amount-crypto').val(cryptoAmount.toFixed(8));
+                $('#summary-fee').text('$' + fee.toFixed(2));
+                $('#summary-total').text('$' + total.toFixed(2));
+            }
+        }
+
+        // Handle crypto selection
+        $('.crypto-option').click(function() {
+            $('.crypto-option').removeClass('active');
+            $(this).addClass('active');
+            selectedCrypto = $(this).data('crypto');
+            const symbol = cryptoNames[selectedCrypto];
+            
+            $('#crypto-balance-label').text(symbol + ' Balance:');
+            $('#crypto-amount-label').text('Amount (' + symbol + ')');
+            
+            fetchPrice();
+        });
+
+        // Handle trade type toggle
+        $('.trade-tab').click(function() {
+            $('.trade-tab').removeClass('active');
+            $(this).addClass('active');
+            tradeType = $(this).data('type');
+            
+            if (tradeType === 'buy') {
+                $('#trade-submit-btn').removeClass('sell-btn').addClass('buy-btn').html('<i class="fa fa-check-circle"></i> Place Buy Order');
+                $('#summary-type').text('Market Buy');
+            } else {
+                $('#trade-submit-btn').removeClass('buy-btn').addClass('sell-btn').html('<i class="fa fa-check-circle"></i> Place Sell Order');
+                $('#summary-type').text('Market Sell');
+            }
+        });
+
+        // Handle amount input
+        $('#amount-usd').on('input', calculateTrade);
+
+        // Handle form submission
+        $('#trade-form').submit(function(e) {
+            e.preventDefault();
+            
+            const usdAmount = parseFloat($('#amount-usd').val());
+            const cryptoAmount = parseFloat($('#amount-crypto').val());
+            
+            if (usdAmount < 10) {
+                alert('Minimum trade amount is $10');
+                return;
+            }
+            
+            const formData = {
+                action: 'place_trade',
+                crypto: selectedCrypto,
+                type: tradeType,
+                usd_amount: usdAmount,
+                crypto_amount: cryptoAmount,
+                price: currentPrice
+            };
+            
+            $('#trade-submit-btn').prop('disabled', true).text('Processing...');
+            
+            $.ajax({
+                type: 'POST',
+                url: 'api/trade.php',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        alert('✓ Trade executed successfully!\n\n' + response.message);
+                        $('#amount-usd').val('');
+                        $('#amount-crypto').val('');
+                        calculateTrade();
+                        loadRecentTrades();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Trade failed. Please try again.');
+                },
+                complete: function() {
+                    $('#trade-submit-btn').prop('disabled', false);
+                    if (tradeType === 'buy') {
+                        $('#trade-submit-btn').html('<i class="fa fa-check-circle"></i> Place Buy Order');
+                    } else {
+                        $('#trade-submit-btn').html('<i class="fa fa-check-circle"></i> Place Sell Order');
+                    }
+                }
+            });
+        });
+
+        // Load recent trades
+        function loadRecentTrades() {
+            $.get('api/trade.php?action=recent_trades', function(response) {
+                if (response.success && response.trades.length > 0) {
+                    let html = '';
+                    response.trades.forEach(trade => {
+                        const color = trade.type === 'buy' ? '#4CAF50' : '#dc2626';
+                        html += `
+                            <div style="padding: 10px; border-bottom: 1px solid #e0e0e0;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: ${color}; font-weight: bold;">${trade.type.toUpperCase()}</span>
+                                    <span style="font-size: 12px; color: #666;">${trade.date}</span>
+                                </div>
+                                <div>${trade.crypto_amount} ${trade.crypto.toUpperCase()}</div>
+                                <div style="font-size: 12px; color: #666;">@ $${parseFloat(trade.price).toFixed(2)}</div>
+                            </div>
+                        `;
+                    });
+                    $('#recent-trades').html(html);
+                }
+            });
+        }
+
+        // Initialize
+        $(document).ready(function() {
+            fetchPrice();
+            loadRecentTrades();
+            priceInterval = setInterval(fetchPrice, 2000); // Update price every 2 seconds
+        });
+    </script>
+</body>
+</html>

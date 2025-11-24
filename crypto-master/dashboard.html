@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard - Crypto Trading Platform</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/themify-icons.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <style>
+        body {
+            background: #f5f7fa;
+            padding: 0;
+        }
+        
+        .navbar-dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-dashboard .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .navbar-dashboard .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .navbar-dashboard .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-dashboard .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .navbar-dashboard .btn-logout {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .navbar-dashboard .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .dashboard-container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+        }
+        
+        .summary-card h3 {
+            color: #999;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-card .value {
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .summary-card .change {
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .summary-card .change.positive {
+            color: #4CAF50;
+        }
+        
+        .summary-card .change.negative {
+            color: #dc3545;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .section-header h2 {
+            color: #333;
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        .btn-add {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .holdings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .holdings-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        
+        .holdings-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .holdings-table tbody tr {
+            transition: background 0.3s ease;
+        }
+        
+        .holdings-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .crypto-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .crypto-symbol {
+            color: #999;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .btn-action {
+            padding: 6px 12px;
+            margin: 0 3px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .btn-edit:hover {
+            background: #1976D2;
+        }
+        
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            margin-bottom: 20px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .modal-close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+        
+        .btn-cancel {
+            padding: 10px 20px;
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-submit {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <div class="navbar-dashboard">
+        <div class="logo">📊 Crypto Portfolio</div>
+        <div class="user-menu">
+            <a href="watchlist.html" class="alerts-link">⭐ Watchlist</a>
+            <a href="alerts.html" class="alerts-link">🔔 Alerts</a>
+            <a href="trade-history.html" class="alerts-link">📜 Trade History</a>
+            <a href="trading-bots.html" class="alerts-link">🤖 Trading Bots</a>
+            <a href="referrals.html" class="alerts-link">💰 Referrals</a>
+            <a href="charts.html" class="alerts-link">📊 Charts</a>
+            <a href="analytics.html" class="alerts-link">📈 Analytics</a>
+            <a href="news.html" class="alerts-link">📰 News</a>
+            <a href="two-factor-auth.html" class="alerts-link">🔒 2FA</a>
+            <a href="email-log.html" class="alerts-link">📧 Emails</a>
+            <div class="user-info">
+                <div class="user-avatar" id="userInitial">U</div>
+                <div>
+                    <span id="userName">User</span>
+                    <div class="user-email-small" id="userEmail">user@email.com</div>
+                </div>
+            </div>
+            <a href="#" class="btn-logout" onclick="logout_user(); return false;">Logout</a>
+        </div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Welcome back! 👋</h1>
+            <p>Track and manage your cryptocurrency portfolio</p>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Total Invested</h3>
+                <div class="value" id="totalInvested">$0.00</div>
+                <div class="change" id="investedChange">In 0 cryptocurrencies</div>
+            </div>
+            <div class="summary-card">
+                <h3>Current Value</h3>
+                <div class="value" id="currentValue">$0.00</div>
+                <div class="change" id="valueChange">Loading...</div>
+            </div>
+            <div class="summary-card">
+                <h3>Total P&L</h3>
+                <div class="value" id="totalPL">$0.00</div>
+                <div class="change" id="plChange">0%</div>
+            </div>
+        </div>
+        
+        <!-- Portfolio Holdings -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Your Holdings</h2>
+                <button class="btn-add" onclick="openAddHoldingModal()">+ Add Holding</button>
+            </div>
+            
+            <div id="alertBox" class="alert"></div>
+            
+            <div id="holdingsContainer">
+                <div class="empty-state">
+                    <i class="ti-wallet"></i>
+                    <p>No holdings yet. Start by adding your first cryptocurrency!</p>
+                    <button class="btn-add" onclick="openAddHoldingModal()">Add Your First Holding</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Holding Modal -->
+    <div class="modal" id="holdingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-close" onclick="closeHoldingModal()">&times;</span>
+                <span id="modalTitle">Add Holding</span>
+            </div>
+            
+            <form id="holdingForm" method="POST" novalidate>
+                <input type="hidden" id="holdingId" name="holding_id" value="">
+                
+                <div class="form-group">
+                    <label for="cryptoSelect">Cryptocurrency *</label>
+                    <select id="cryptoSelect" name="crypto_id" required>
+                        <option value="">Select a cryptocurrency...</option>
+                        <option value="bitcoin">Bitcoin (BTC)</option>
+                        <option value="ethereum">Ethereum (ETH)</option>
+                        <option value="litecoin">Litecoin (LTC)</option>
+                        <option value="ripple">XRP (XRP)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Quantity *</label>
+                    <input type="number" id="quantity" name="quantity" step="0.00000001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entryPrice">Entry Price (USD) *</label>
+                    <input type="number" id="entryPrice" name="entry_price" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entryDate">Entry Date *</label>
+                    <input type="date" id="entryDate" name="entry_date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Add any notes about this holding..."></textarea>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancel" onclick="closeHoldingModal()">Cancel</button>
+                    <button type="submit" class="btn-submit">Save Holding</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        // Check authentication and load dashboard data
+        $(document).ready(function() {
+            // Verify user is logged in
+            if (!localStorage.getItem('user_id')) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Set user info
+            const userName = localStorage.getItem('user_name') || 'User';
+            const userEmail = localStorage.getItem('user_email') || 'user@email.com';
+            const userInitial = userName.charAt(0).toUpperCase();
+            
+            $('#userName').text(userName);
+            $('#userEmail').text(userEmail);
+            $('#userInitial').text(userInitial);
+            
+            // Load portfolio data
+            loadPortfolioData();
+            
+            // Auto-refresh prices every 60 seconds
+            setInterval(function() {
+                loadPortfolioData();
+            }, 60000); // 60 seconds
+            
+            // Set today's date as default entry date
+            const today = new Date().toISOString().split('T')[0];
+            $('#entryDate').val(today);
+            
+            // Form submission
+            $('#holdingForm').on('submit', function(e) {
+                e.preventDefault();
+                saveHolding();
+            });
+        });
+        
+        /**
+         * Load portfolio data from API
+         */
+        function loadPortfolioData() {
+            $.post('api/portfolio.php', {
+                action: 'get_holdings'
+            }, function(response) {
+                if (response.success) {
+                    displayHoldings(response.holdings);
+                    updateSummaryWithLivePrices(response.holdings);
+                } else {
+                    showAlert('Error loading portfolio', 'error');
+                }
+            }).fail(function() {
+                showAlert('Failed to load portfolio', 'error');
+            });
+        }
+        
+        /**
+         * Display holdings table
+         */
+        function displayHoldings(holdings) {
+            const container = $('#holdingsContainer');
+            
+            if (holdings.length === 0) {
+                container.html(`
+                    <div class="empty-state">
+                        <i class="ti-wallet"></i>
+                        <p>No holdings yet. Start by adding your first cryptocurrency!</p>
+                        <button class="btn-add" onclick="openAddHoldingModal()">Add Your First Holding</button>
+                    </div>
+                `);
+                return;
+            }
+            
+            let html = `
+                <table class="holdings-table">
+                    <thead>
+                        <tr>
+                            <th>Cryptocurrency</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Entry Price</th>
+                            <th class="text-right">Entry Date</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            holdings.forEach(holding => {
+                const totalValue = (holding.quantity * holding.entry_price).toFixed(2);
+                html += `
+                    <tr>
+                        <td>
+                            <span class="crypto-name">${holding.crypto_name}</span>
+                            <span class="crypto-symbol">${holding.crypto_symbol}</span>
+                        </td>
+                        <td class="text-right">${parseFloat(holding.quantity).toFixed(8)}</td>
+                        <td class="text-right">$${parseFloat(holding.entry_price).toFixed(2)}</td>
+                        <td class="text-right">${formatDate(holding.entry_date)}</td>
+                        <td class="text-right">
+                            <button class="btn-action btn-edit" onclick="editHolding(${holding.holding_id})">Edit</button>
+                            <button class="btn-action btn-delete" onclick="deleteHolding(${holding.holding_id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.html(html);
+        }
+        
+        /**
+         * Update summary cards
+         */
+        function updateSummary(holdings) {
+            let totalInvested = 0;
+            
+            holdings.forEach(holding => {
+                totalInvested += holding.quantity * holding.entry_price;
+            });
+            
+            $('#totalInvested').text('$' + totalInvested.toFixed(2));
+            $('#investedChange').text(`In ${holdings.length} cryptocurrency${holdings.length !== 1 ? 's' : ''}`);
+            
+            // Note: Current value would require real-time price data from API
+            $('#currentValue').text('$' + totalInvested.toFixed(2));
+            $('#valueChange').text('Loading live prices...');
+        }
+        
+        /**
+         * Update summary with live cryptocurrency prices
+         */
+        function updateSummaryWithLivePrices(holdings) {
+            if (holdings.length === 0) {
+                $('#totalInvested').text('$0.00');
+                $('#investedChange').text('No holdings yet');
+                $('#currentValue').text('$0.00');
+                $('#valueChange').text('Add your first crypto');
+                $('#totalPL').text('$0.00');
+                $('#plChange').text('0%');
+                return;
+            }
+            
+            // Calculate total invested
+            let totalInvested = 0;
+            holdings.forEach(holding => {
+                totalInvested += holding.quantity * holding.entry_price;
+            });
+            
+            $('#totalInvested').text('$' + totalInvested.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+            $('#investedChange').text(`In ${holdings.length} cryptocurrency${holdings.length !== 1 ? 's' : ''}`);
+            
+            // Get unique crypto IDs
+            const cryptoIds = [...new Set(holdings.map(h => h.crypto_id))].join(',');
+            
+            // Fetch live prices from CoinGecko
+            $.ajax({
+                url: `https://api.coingecko.com/api/v3/simple/price?ids=${cryptoIds}&vs_currencies=usd&include_24hr_change=true`,
+                method: 'GET',
+                success: function(prices) {
+                    let currentValue = 0;
+                    
+                    // Calculate current value
+                    holdings.forEach(holding => {
+                        const priceData = prices[holding.crypto_id];
+                        if (priceData) {
+                            currentValue += holding.quantity * priceData.usd;
+                        } else {
+                            // Fallback to entry price if live price unavailable
+                            currentValue += holding.quantity * holding.entry_price;
+                        }
+                    });
+                    
+                    // Calculate profit/loss
+                    const profitLoss = currentValue - totalInvested;
+                    const profitLossPercent = ((profitLoss / totalInvested) * 100);
+                    
+                    // Update UI
+                    $('#currentValue').text('$' + currentValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    
+                    // Update value change indicator
+                    if (profitLoss >= 0) {
+                        $('#valueChange').html('<i class="ti-arrow-up"></i> +$' + Math.abs(profitLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' today');
+                        $('#valueChange').css('color', '#4CAF50');
+                    } else {
+                        $('#valueChange').html('<i class="ti-arrow-down"></i> -$' + Math.abs(profitLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' today');
+                        $('#valueChange').css('color', '#dc2626');
+                    }
+                    
+                    // Update P/L card
+                    $('#totalPL').text((profitLoss >= 0 ? '+' : '') + '$' + profitLoss.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('#plChange').text((profitLossPercent >= 0 ? '+' : '') + profitLossPercent.toFixed(2) + '%');
+                    
+                    if (profitLoss >= 0) {
+                        $('#totalPL').css('color', '#4CAF50');
+                        $('#plChange').css('color', '#4CAF50');
+                    } else {
+                        $('#totalPL').css('color', '#dc2626');
+                        $('#plChange').css('color', '#dc2626');
+                    }
+                    
+                    // Update holdings table with current prices
+                    updateHoldingsWithLivePrices(holdings, prices);
+                },
+                error: function() {
+                    $('#currentValue').text('$' + totalInvested.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('#valueChange').text('Unable to fetch live prices');
+                    $('#totalPL').text('$0.00');
+                    $('#plChange').text('N/A');
+                }
+            });
+        }
+        
+        /**
+         * Update holdings table with live prices
+         */
+        function updateHoldingsWithLivePrices(holdings, prices) {
+            const container = $('#holdingsContainer');
+            
+            if (holdings.length === 0) {
+                container.html(`
+                    <div class="empty-state">
+                        <i class="ti-wallet"></i>
+                        <p>No holdings yet. Start by adding your first cryptocurrency!</p>
+                        <button class="btn-add" onclick="openAddHoldingModal()">Add Your First Holding</button>
+                    </div>
+                `);
+                return;
+            }
+            
+            let html = `
+                <table class="holdings-table">
+                    <thead>
+                        <tr>
+                            <th>Cryptocurrency</th>
+                            <th class="text-right">Quantity</th>
+                            <th class="text-right">Entry Price</th>
+                            <th class="text-right">Current Price</th>
+                            <th class="text-right">Value</th>
+                            <th class="text-right">P/L</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            holdings.forEach(holding => {
+                const priceData = prices[holding.crypto_id];
+                const currentPrice = priceData ? priceData.usd : holding.entry_price;
+                const currentValue = holding.quantity * currentPrice;
+                const investedValue = holding.quantity * holding.entry_price;
+                const profitLoss = currentValue - investedValue;
+                const profitLossPercent = ((profitLoss / investedValue) * 100);
+                const plColor = profitLoss >= 0 ? '#4CAF50' : '#dc2626';
+                
+                html += `
+                    <tr>
+                        <td>
+                            <span class="crypto-name">${holding.crypto_name}</span>
+                            <span class="crypto-symbol">${holding.crypto_symbol}</span>
+                        </td>
+                        <td class="text-right">${parseFloat(holding.quantity).toFixed(8)}</td>
+                        <td class="text-right">$${parseFloat(holding.entry_price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td class="text-right">$${currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td class="text-right">$${currentValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td class="text-right" style="color: ${plColor}; font-weight: bold;">
+                            ${profitLoss >= 0 ? '+' : ''}$${Math.abs(profitLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                            <br><small>(${profitLoss >= 0 ? '+' : ''}${profitLossPercent.toFixed(2)}%)</small>
+                        </td>
+                        <td class="text-right">
+                            <button class="btn-action btn-edit" onclick="editHolding(${holding.holding_id})">Edit</button>
+                            <button class="btn-action btn-delete" onclick="deleteHolding(${holding.holding_id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.html(html);
+        }
+        
+        /**
+         * Open add holding modal
+         */
+        function openAddHoldingModal() {
+            $('#holdingId').val('');
+            $('#holdingForm')[0].reset();
+            $('#modalTitle').text('Add Holding');
+            $('#cryptoSelect').val('');
+            
+            const today = new Date().toISOString().split('T')[0];
+            $('#entryDate').val(today);
+            
+            $('#holdingModal').addClass('show');
+        }
+        
+        /**
+         * Edit holding
+         */
+        function editHolding(holdingId) {
+            // Load holding details and populate form
+            // This would require another API endpoint to get holding details
+            openAddHoldingModal();
+            $('#holdingId').val(holdingId);
+            $('#modalTitle').text('Edit Holding');
+        }
+        
+        /**
+         * Close modal
+         */
+        function closeHoldingModal() {
+            $('#holdingModal').removeClass('show');
+        }
+        
+        /**
+         * Save holding
+         */
+        function saveHolding() {
+            const holdingId = $('#holdingId').val();
+            const isUpdate = holdingId !== '';
+            const cryptoId = $('#cryptoSelect').val();
+            const quantity = $('#quantity').val();
+            const entryPrice = $('#entryPrice').val();
+            const entryDate = $('#entryDate').val();
+            const notes = $('#notes').val();
+            
+            // Get crypto name and symbol
+            const cryptoMap = {
+                'bitcoin': { symbol: 'BTC', name: 'Bitcoin' },
+                'ethereum': { symbol: 'ETH', name: 'Ethereum' },
+                'litecoin': { symbol: 'LTC', name: 'Litecoin' },
+                'ripple': { symbol: 'XRP', name: 'XRP' }
+            };
+            
+            const crypto = cryptoMap[cryptoId];
+            if (!crypto) {
+                showAlert('Please select a valid cryptocurrency', 'error');
+                return;
+            }
+            
+            const data = {
+                action: isUpdate ? 'update_holding' : 'add_holding',
+                crypto_id: cryptoId,
+                crypto_symbol: crypto.symbol,
+                crypto_name: crypto.name,
+                quantity: quantity,
+                entry_price: entryPrice,
+                entry_date: entryDate,
+                notes: notes
+            };
+            
+            if (isUpdate) {
+                data.holding_id = holdingId;
+            }
+            
+            $.post('api/portfolio.php', data, function(response) {
+                if (response.success) {
+                    showAlert(response.message, 'success');
+                    closeHoldingModal();
+                    loadPortfolioData();
+                } else {
+                    showAlert(response.message || 'Failed to save holding', 'error');
+                }
+            }).fail(function(xhr) {
+                const response = xhr.responseJSON || { message: 'Error saving holding' };
+                showAlert(response.message, 'error');
+            });
+        }
+        
+        /**
+         * Delete holding
+         */
+        function deleteHolding(holdingId) {
+            if (!confirm('Are you sure you want to delete this holding?')) return;
+            
+            $.post('api/portfolio.php', {
+                action: 'remove_holding',
+                holding_id: holdingId
+            }, function(response) {
+                if (response.success) {
+                    showAlert(response.message, 'success');
+                    loadPortfolioData();
+                } else {
+                    showAlert(response.message || 'Failed to delete holding', 'error');
+                }
+            }).fail(function() {
+                showAlert('Error deleting holding', 'error');
+            });
+        }
+        
+        /**
+         * Logout user
+         */
+        function logout_user() {
+            $.post('api/login.php', {
+                action: 'logout'
+            }, function(response) {
+                localStorage.removeItem('user_id');
+                localStorage.removeItem('user_name');
+                localStorage.removeItem('user_email');
+                window.location.href = 'index.html';
+            });
+        }
+        
+        /**
+         * Show alert message
+         */
+        function showAlert(message, type) {
+            const alertBox = $('#alertBox');
+            alertBox.removeClass('alert-success alert-error');
+            alertBox.addClass(`alert alert-${type} show`);
+            alertBox.text(message);
+            
+            setTimeout(() => {
+                alertBox.removeClass('show');
+            }, 5000);
+        }
+        
+        /**
+         * Format date
+         */
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+    </script>
+</body>
+
+</html>

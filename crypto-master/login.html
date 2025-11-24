@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login - Crypto Trading Platform</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/themify-icons.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 0;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-card h2 {
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .login-card .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group input.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .form-check input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .form-check a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .form-check a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .back-button {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: #f0f4ff;
+        }
+        
+        .back-button:hover {
+            background: #e0e8ff;
+            color: #764ba2;
+            text-decoration: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-left: 5px;
+        }
+        
+        .loading-spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 12px;
+            height: 12px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <a href="index.html" class="back-button">← Back to Home</a>
+            
+            <h2>Sign In</h2>
+            <p class="subtitle">Access your crypto portfolio</p>
+            
+            <div class="alert" id="alertBox"></div>
+            
+            <form id="loginForm" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-check">
+                    <div class="remember-me-container">
+                        <input type="checkbox" id="rememberMe" name="remember_me">
+                        <label for="rememberMe" class="remember-me-label">Remember me</label>
+                    </div>
+                    <a href="forgot-password.html">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn-login" id="loginBtn">
+                    Sign In
+                    <span class="loading loading-hidden">
+                        <div class="loading-spinner"></div>
+                    </span>
+                </button>
+            </form>
+            
+            <div class="signup-link">
+                Don't have an account? <a href="register.html">Create Account</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const form = $('#loginForm');
+            const emailInput = $('#email');
+            const passwordInput = $('#password');
+            const rememberMeInput = $('#rememberMe');
+            const loginBtn = $('#loginBtn');
+            const alertBox = $('#alertBox');
+            
+            // Form submission
+            form.on('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear previous alerts
+                alertBox.removeClass('show alert-success alert-error alert-warning');
+                clearAllErrors();
+                
+                // Validate fields
+                let isValid = true;
+                
+                if (!emailInput.val().trim()) {
+                    showError(emailInput, 'Email is required');
+                    isValid = false;
+                } else if (!isValidEmail(emailInput.val())) {
+                    showError(emailInput, 'Invalid email address');
+                    isValid = false;
+                }
+                
+                if (!passwordInput.val()) {
+                    showError(passwordInput, 'Password is required');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // Submit login
+                loginBtn.disabled = true;
+                loginBtn.find('.loading').show();
+                
+                $.post('api/login.php', {
+                    action: 'login',
+                    email: emailInput.val().trim(),
+                    password: passwordInput.val(),
+                    remember_me: rememberMeInput.is(':checked') ? 1 : 0
+                }, function(response) {
+                    if (response.success) {
+                        // Store user data in localStorage
+                        localStorage.setItem('user_id', response.user_id);
+                        localStorage.setItem('user_name', response.user_name);
+                        localStorage.setItem('user_email', response.user_email);
+                        
+                        alertBox.removeClass('alert-error alert-warning').addClass('alert-success show');
+                        alertBox.html('<strong>Success!</strong> Welcome ' + response.user_name + '! Redirecting...');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    } else {
+                        if (response.email_not_verified) {
+                            alertBox.removeClass('alert-success alert-error').addClass('alert-warning show');
+                            alertBox.html('<strong>Email Not Verified!</strong> Please check your email to verify your account before logging in.');
+                        } else {
+                            alertBox.removeClass('alert-success alert-warning').addClass('alert-error show');
+                            alertBox.html('<strong>Login Failed!</strong> ' + response.message);
+                        }
+                    }
+                    
+                    loginBtn.disabled = false;
+                    loginBtn.find('.loading').hide();
+                }).fail(function(xhr) {
+                    const response = xhr.responseJSON || { message: 'Login failed' };
+                    
+                    if (xhr.status === 429) {
+                        alertBox.removeClass('alert-success alert-warning').addClass('alert-error show');
+                        alertBox.html('<strong>Too Many Attempts!</strong> ' + response.message);
+                    } else {
+                        alertBox.removeClass('alert-success alert-warning').addClass('alert-error show');
+                        alertBox.html('<strong>Error!</strong> ' + response.message);
+                    }
+                    
+                    loginBtn.disabled = false;
+                    loginBtn.find('.loading').hide();
+                });
+            });
+            
+            // Helper functions
+            function showError(input, message) {
+                input.addClass('is-invalid');
+                input.closest('.form-group').find('.error-message').text(message).addClass('show');
+            }
+            
+            function clearAllErrors() {
+                $('.form-group input').removeClass('is-invalid');
+                $('.error-message').removeClass('show');
+            }
+            
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+        });
+    </script>
+</body>
+
+</html>

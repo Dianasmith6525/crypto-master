@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Network Stats - Cryptocurrency Trading Platform</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Real-time blockchain network statistics and metrics for major cryptocurrencies.">
+	<meta name="keywords" content="network stats, blockchain metrics, transaction data, mining statistics">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Crypto Trading Platform">
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/themify-icons.css"/>
+	<link rel="stylesheet" href="css/animate.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section clearfix">
+		<div class="container-fluid">
+			<a href="index.html" class="site-logo">
+				<img src="img/logo.png" alt="">
+			</a>
+			<div class="responsive-bar" role="button" aria-label="Toggle Navigation Menu"><i class="fa fa-bars"></i></div>
+			<div class="auth-links">
+				<a href="dashboard.html" class="user" title="Dashboard" id="dashboardLink" style="display: none;"><i class="fa fa-home"></i></a>
+				<a href="login.html" class="user" title="Sign In" id="loginLink"><i class="fa fa-user"></i></a>
+				<a href="register.html" class="site-btn" id="signupLink">Sign Up Free</a>
+				<a href="#" class="site-btn" id="logoutLink" style="display: none; background: #dc3545;" onclick="logout_user(); return false;">Logout</a>
+			</div>
+			<nav class="main-menu">
+				<ul class="menu-list">
+					<li><a href="index.html#features">Solution</a></li>
+					<li><a href="index.html#features">Features</a></li>
+					<li><a href="blog.html">News</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Breadcrumb section -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb-text">
+						<h2>Network Statistics</h2>
+						<p><a href="index.html">Home</a> > <a href="#">Network Stats</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb section end -->
+
+	<!-- Content section -->
+	<section class="page-content spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-article">
+						<h2>Blockchain Network Statistics</h2>
+						<p class="lead">Real-time data and metrics for major cryptocurrency networks.</p>
+
+						<h3>Bitcoin Network Stats</h3>
+						<div class="table-responsive" style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+							<table class="table table-borderless" style="margin-bottom: 0;">
+								<tr>
+									<td><strong>Current Hash Rate:</strong></td>
+									<td>687.3 EH/s</td>
+									<td style="float: right;"><strong>Difficulty:</strong></td>
+									<td>84.49 T</td>
+								</tr>
+								<tr>
+									<td><strong>Blocks Mined Today:</strong></td>
+									<td>142 blocks</td>
+									<td style="float: right;"><strong>Avg Block Time:</strong></td>
+									<td>10.2 minutes</td>
+								</tr>
+								<tr>
+									<td><strong>Total Transactions:</strong></td>
+									<td>810.5M transactions</td>
+									<td style="float: right;"><strong>Active Addresses:</strong></td>
+									<td>34.2M</td>
+								</tr>
+								<tr>
+									<td><strong>Network Value:</strong></td>
+									<td>$1.87 Trillion</td>
+									<td style="float: right;"><strong>Circulating Supply:</strong></td>
+									<td>21.4M BTC</td>
+								</tr>
+								<tr>
+									<td><strong>Mempool Size:</strong></td>
+									<td>128.5 MB</td>
+									<td style="float: right;"><strong>Avg Fee:</strong></td>
+									<td>$2.45</td>
+								</tr>
+							</table>
+						</div>
+
+						<h3>Ethereum Network Stats</h3>
+						<div class="table-responsive" style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+							<table class="table table-borderless" style="margin-bottom: 0;">
+								<tr>
+									<td><strong>Daily Transactions:</strong></td>
+									<td>1.2M transactions</td>
+									<td style="float: right;"><strong>Active Contracts:</strong></td>
+									<td>4.8M contracts</td>
+								</tr>
+								<tr>
+									<td><strong>Average Gas Price:</strong></td>
+									<td>45 Gwei</td>
+									<td style="float: right;"><strong>Block Time:</strong></td>
+									<td>12.5 seconds</td>
+								</tr>
+								<tr>
+									<td><strong>ETH Staked:</strong></td>
+									<td>32.1M ETH</td>
+									<td style="float: right;"><strong>Staking Reward:</strong></td>
+									<td>3.2% APY</td>
+								</tr>
+								<tr>
+									<td><strong>Total Value Locked (DeFi):</strong></td>
+									<td>$124.5B</td>
+									<td style="float: right;"><strong>Active Validators:</strong></td>
+									<td>1.04M</td>
+								</tr>
+							</table>
+						</div>
+
+						<h3>Understanding Network Metrics</h3>
+						<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+							<h4>Hash Rate</h4>
+							<p>Measures the total computational power of the network. Higher hash rate means better security but also higher energy consumption.</p>
+
+							<h4 style="margin-top: 20px;">Difficulty</h4>
+							<p>Adjusted to maintain consistent block times. As more miners join, difficulty increases to keep block production rate stable.</p>
+
+							<h4 style="margin-top: 20px;">Network Value</h4>
+							<p>Total market capitalization of the cryptocurrency. Reflects investor confidence and overall network adoption.</p>
+
+							<h4 style="margin-top: 20px;">Transaction Volume</h4>
+							<p>Shows the number of transactions processed on the network. Indicates real-world usage and network health.</p>
+
+							<h4 style="margin-top: 20px;">Active Addresses</h4>
+							<p>Number of unique addresses that transacted in a given period. Indicator of active participation in the network.</p>
+						</div>
+
+						<h3>Network Health Indicators</h3>
+						<ul style="border-left: 4px solid #667eea; padding-left: 20px;">
+							<li><strong>Green (Healthy):</strong> Network operating normally with stable metrics</li>
+							<li><strong>Yellow (Caution):</strong> Slight abnormalities detected, monitor for changes</li>
+							<li><strong>Red (Alert):</strong> Significant issues affecting network performance</li>
+						</ul>
+
+						<div style="background: #f0f4ff; padding: 20px; border-radius: 8px; margin: 30px 0;">
+							<h4 style="margin-top: 0;">Real-Time Monitoring</h4>
+							<p>Track network metrics in real-time on our dashboard and set alerts for important thresholds.</p>
+							<a href="dashboard.html" class="site-btn">View Dashboard</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Content section end -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<div class="row spad">
+				<div class="col-md-6 col-lg-3 footer-widget">
+					<img src="img/logo.png" class="mb-4" alt="">
+					<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia dese mollit anim id est laborum.</p>
+					<span>Copyright &copy;2025 All rights reserved</span>
+				</div>
+				<div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+					<h5 class="widget-title">Resources</h5>
+					<ul>
+						<li><a href="how-to-buy.html">How to Buy Coin</a></li>
+						<li><a href="coin-overview.html">Coin Overview</a></li>
+						<li><a href="blog.html">Blog News</a></li>
+						<li><a href="how-to-sell.html">How to Sell Coin</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+					<h5 class="widget-title">Quick Links</h5>
+					<ul>
+						<li><a href="network-stats.html">Network Stats</a></li>
+						<li><a href="block-explorers.html">Block Explorers</a></li>
+						<li><a href="governance.html">Governance</a></li>
+						<li><a href="exchange-markets.html">Exchange Markets</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
+					<h5 class="widget-title">Follow Us</h5>
+					<div class="social">
+						<a href="#" class="facebook" title="Follow us on Facebook"><i class="fa fa-facebook"></i></a>
+						<a href="#" class="google" title="Follow us on Google+"><i class="fa fa-google-plus"></i></a>
+						<a href="#" class="instagram" title="Follow us on Instagram"><i class="fa fa-instagram"></i></a>
+						<a href="#" class="twitter" title="Follow us on Twitter"><i class="fa fa-twitter"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="row">
+					<div class="col-lg-12 text-center text-lg-right">
+						<ul class="footer-nav">
+							<li><a href="#" title="Data Processing Agreement">DPA</a></li>
+							<li><a href="#" title="Terms of Use">Terms of Use</a></li>
+							<li><a href="#" title="Privacy Policy">Privacy Policy</a></li>
+							<li><a href="mailto:support@company.com" title="Email Support">support@company.com</a></li>
+							<li><a href="tel:+11234567890" title="Phone Support">(123) 456-7890</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer section end -->
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

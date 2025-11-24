@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register - Crypto Trading Platform</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/themify-icons.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        .register-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 0;
+        }
+        
+        .register-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .register-card h2 {
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .register-card .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group input.is-invalid,
+        .form-group select.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .form-group.has-error input {
+            border-color: #dc3545;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .form-group .success-message {
+            color: #4CAF50;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .form-group .success-message.show {
+            display: block;
+        }
+        
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .password-strength .bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+        
+        .password-strength.show {
+            display: block;
+        }
+        
+        .password-strength .bar.weak {
+            width: 33%;
+            background: #dc3545;
+        }
+        
+        .password-strength .bar.medium {
+            width: 66%;
+            background: #f59e0b;
+        }
+        
+        .password-strength .bar.strong {
+            width: 100%;
+            background: #4CAF50;
+        }
+        
+        .form-check {
+            margin-bottom: 20px;
+        }
+        
+        .form-check input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .form-check label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        
+        .form-check label a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .form-check label a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-register:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .back-button {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: #f0f4ff;
+        }
+        
+        .back-button:hover {
+            background: #e0e8ff;
+            color: #764ba2;
+            text-decoration: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-left: 5px;
+        }
+        
+        .loading-spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 12px;
+            height: 12px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <a href="index.html" class="back-button">← Back to Home</a>
+            
+            <h2>Create Account</h2>
+            <p class="subtitle">Join thousands of crypto traders</p>
+            
+            <div class="alert" id="alertBox"></div>
+            
+            <form id="registerForm" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="full_name" required>
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message"></div>
+                    <div class="success-message">✓ Email available</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="password-strength">
+                        <div class="bar"></div>
+                    </div>
+                    <div class="error-message"></div>
+                    <small class="password-hint">
+                        At least 8 characters, with uppercase, lowercase, numbers & special characters
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirm_password" required>
+                    <div class="error-message"></div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="agreeTerms" name="agree_terms" required>
+                    <label for="agreeTerms">
+                        I agree to the <a href="terms-of-use.html" target="_blank">Terms of Service</a>, <a href="privacy-policy.html" target="_blank">Privacy Policy</a>, and <a href="aml-policy.html" target="_blank">AML Policy</a> *
+                    </label>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="agreeRiskDisclosure" name="agree_risk_disclosure" required>
+                    <label for="agreeRiskDisclosure">
+                        I have read and understand the <a href="risk-disclosure.html" target="_blank">Risk Disclosure</a> and acknowledge the risks of cryptocurrency trading *
+                    </label>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="agreeCustody" name="agree_custody" required>
+                    <label for="agreeCustody">
+                        I acknowledge the <a href="custody-asset-protection.html" target="_blank">Custody & Asset Protection</a> policies *
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-register" id="registerBtn">
+                    Create Account
+                    <span class="loading loading-hidden">
+                        <div class="loading-spinner"></div>
+                    </span>
+                </button>
+            </form>
+            
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const form = $('#registerForm');
+            const fullNameInput = $('#fullName');
+            const emailInput = $('#email');
+            const passwordInput = $('#password');
+            const confirmPasswordInput = $('#confirmPassword');
+            const agreeTermsInput = $('#agreeTerms');
+            const agreeRiskDisclosureInput = $('#agreeRiskDisclosure');
+            const agreeCustodyInput = $('#agreeCustody');
+            const registerBtn = $('#registerBtn');
+            const alertBox = $('#alertBox');
+            
+            // Real-time email validation
+            emailInput.on('blur', function() {
+                const email = $(this).val().trim();
+                const formGroup = $(this).closest('.form-group');
+                const errorMsg = formGroup.find('.error-message');
+                const successMsg = formGroup.find('.success-message');
+                
+                if (!email) return;
+                
+                $.post('api/register.php', {
+                    action: 'check_email_exists',
+                    email: email
+                }, function(response) {
+                    if (response.exists) {
+                        emailInput.addClass('is-invalid');
+                        errorMsg.text('This email is already registered').addClass('show');
+                        successMsg.removeClass('show');
+                    } else {
+                        emailInput.removeClass('is-invalid');
+                        errorMsg.removeClass('show');
+                        successMsg.addClass('show');
+                    }
+                });
+            });
+            
+            // Password strength indicator
+            passwordInput.on('input', function() {
+                const password = $(this).val();
+                const strength = calculatePasswordStrength(password);
+                const strengthBar = $(this).closest('.form-group').find('.password-strength .bar');
+                
+                strengthBar.removeClass('weak medium strong');
+                
+                if (strength === 'weak') {
+                    strengthBar.addClass('weak');
+                } else if (strength === 'medium') {
+                    strengthBar.addClass('medium');
+                } else if (strength === 'strong') {
+                    strengthBar.addClass('strong');
+                }
+                
+                if (password.length > 0) {
+                    $(this).closest('.form-group').find('.password-strength').addClass('show');
+                } else {
+                    $(this).closest('.form-group').find('.password-strength').removeClass('show');
+                }
+            });
+            
+            // Form submission
+            form.on('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear previous alerts
+                alertBox.removeClass('show alert-success alert-error');
+                clearAllErrors();
+                
+                // Validate fields
+                let isValid = true;
+                
+                if (!fullNameInput.val().trim()) {
+                    showError(fullNameInput, 'Full name is required');
+                    isValid = false;
+                }
+                
+                if (!emailInput.val().trim()) {
+                    showError(emailInput, 'Email is required');
+                    isValid = false;
+                } else if (!isValidEmail(emailInput.val())) {
+                    showError(emailInput, 'Invalid email address');
+                    isValid = false;
+                }
+                
+                const passwordErrors = validatePassword(passwordInput.val());
+                if (passwordErrors.length > 0) {
+                    showError(passwordInput, passwordErrors[0]);
+                    isValid = false;
+                }
+                
+                if (passwordInput.val() !== confirmPasswordInput.val()) {
+                    showError(confirmPasswordInput, 'Passwords do not match');
+                    isValid = false;
+                }
+                
+                if (!agreeTermsInput.is(':checked')) {
+                    showError(agreeTermsInput, 'You must agree to terms and policies');
+                    isValid = false;
+                }
+                
+                if (!agreeRiskDisclosureInput.is(':checked')) {
+                    showError(agreeRiskDisclosureInput, 'You must acknowledge the risk disclosure');
+                    isValid = false;
+                }
+                
+                if (!agreeCustodyInput.is(':checked')) {
+                    showError(agreeCustodyInput, 'You must acknowledge custody policies');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // Submit form
+                registerBtn.disabled = true;
+                registerBtn.find('.loading').show();
+                
+                $.post('api/register.php', {
+                    action: 'register',
+                    full_name: fullNameInput.val().trim(),
+                    email: emailInput.val().trim(),
+                    password: passwordInput.val(),
+                    confirm_password: confirmPasswordInput.val(),
+                    agree_terms: agreeTermsInput.is(':checked') ? 1 : 0,
+                    agree_risk_disclosure: agreeRiskDisclosureInput.is(':checked') ? 1 : 0,
+                    agree_custody: agreeCustodyInput.is(':checked') ? 1 : 0
+                }, function(response) {
+                    if (response.success) {
+                        alertBox.removeClass('alert-error').addClass('alert-success show');
+                        alertBox.html('<strong>Success!</strong> ' + response.message + ' Redirecting to login...');
+                        
+                        form[0].reset();
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    } else {
+                        const errors = response.errors || [response.message];
+                        alertBox.removeClass('alert-success').addClass('alert-error show');
+                        alertBox.html('<strong>Registration Failed!</strong><br>' + errors.join('<br>'));
+                    }
+                    
+                    registerBtn.disabled = false;
+                    registerBtn.find('.loading').hide();
+                }).fail(function(xhr) {
+                    const response = xhr.responseJSON || { message: 'Registration failed' };
+                    const errors = response.errors || [response.message];
+                    alertBox.removeClass('alert-success').addClass('alert-error show');
+                    alertBox.html('<strong>Error!</strong><br>' + errors.join('<br>'));
+                    
+                    registerBtn.disabled = false;
+                    registerBtn.find('.loading').hide();
+                });
+            });
+            
+            // Helper functions
+            function showError(input, message) {
+                input.addClass('is-invalid');
+                input.closest('.form-group').find('.error-message').text(message).addClass('show');
+            }
+            
+            function clearAllErrors() {
+                $('.form-group input').removeClass('is-invalid');
+                $('.error-message').removeClass('show');
+            }
+            
+            function isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+            
+            function validatePassword(password) {
+                const errors = [];
+                if (password.length < 8) errors.push('At least 8 characters');
+                if (!/[A-Z]/.test(password)) errors.push('One uppercase letter');
+                if (!/[a-z]/.test(password)) errors.push('One lowercase letter');
+                if (!/[0-9]/.test(password)) errors.push('One number');
+                if (!/[!@#$%^&*()_+\-=\[\]{};:'"<>?,.\\|/]/.test(password)) errors.push('One special character');
+                return errors;
+            }
+            
+            function calculatePasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 8) strength++;
+                if (password.length >= 12) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[!@#$%^&*()_+\-=\[\]{};:'"<>?,.\\|/]/.test(password)) strength++;
+                
+                if (strength <= 2) return 'weak';
+                if (strength <= 4) return 'medium';
+                return 'strong';
+            }
+        });
+    </script>
+</body>
+
+</html>

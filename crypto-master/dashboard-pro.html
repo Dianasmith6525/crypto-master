@@ -1,0 +1,32 @@
+localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
+=======
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Load referral stats for dashboard
+        function loadReferralStats() {
+            $.get('api/referrals.php?action=stats', function(response) {
+                if (response.success) {
+                    $('#referralCount').text(response.stats.total_referrals);
+                    $('#referralEarnings').text('$' + response.stats.total_earnings.toFixed(2));
+                }
+            }).fail(function() {
+                $('#referralCount').text('0');
+                $('#referralEarnings').text('$0.00');
+            });
+        }
+
+        // Initialize referral stats on page load
+        $(document).ready(function() {
+            loadReferralStats();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin AI Summary - Crypto Trading</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .ai-summary-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-summary-container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ai-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .summary-content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .summary-content strong {
+            color: #667eea;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-alert {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .success-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .retry-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: transparent;
+            color: white;
+        }
+
+        .timestamp {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        .raw-data-toggle {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid white;
+        }
+
+        .raw-data-toggle button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .raw-data-toggle button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #rawData {
+            display: none;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .back-btn {
+            color: #667eea;
+            background: #f0f4ff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #e0e8ff;
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloder -->
+    <div id="preloder"></div>
+
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <a href="index.html" class="back-btn">← Back Home</a>
+                    <h1 style="text-align: center; color: #667eea; margin: 30px 0;">Bitcoin AI-Powered Summary</h1>
+                    <p style="text-align: center; color: #666; font-size: 16px;">Get real-time Bitcoin insights powered by artificial intelligence</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <!-- AI Summary Container -->
+                    <div class="ai-summary-container">
+                        <h2>
+                            <div class="ai-icon">
+                                <i class="fa fa-brain"></i>
+                            </div>
+                            AI-Powered Analysis
+                        </h2>
+                        
+                        <div id="loadingState" style="display: none; text-align: center; padding: 30px;">
+                            <div class="loading-spinner"></div>
+                            <p style="margin-top: 15px; font-size: 16px;">Fetching Bitcoin data and generating AI summary...</p>
+                        </div>
+
+                        <div id="summaryState" style="display: none;">
+                            <div class="summary-content" id="summaryText"></div>
+                            <div class="timestamp">
+                                Last updated: <span id="updateTime"></span>
+                            </div>
+                            <button class="retry-btn" onclick="loadBitcoinSummary()">
+                                <i class="fa fa-refresh"></i> Refresh Summary
+                            </button>
+                            <div class="raw-data-toggle">
+                                <button onclick="toggleRawData()">
+                                    <i class="fa fa-code"></i> Toggle Raw API Data
+                                </button>
+                                <div id="rawData"></div>
+                            </div>
+                        </div>
+
+                        <div id="errorState" style="display: none;">
+                            <div class="error-alert" id="errorMessage"></div>
+                            <button class="retry-btn" onclick="loadBitcoinSummary()">
+                                <i class="fa fa-refresh"></i> Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Information Section -->
+                    <section style="margin-top: 50px; padding: 30px; background: #f9f9f9; border-radius: 10px;">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">How This Works</h3>
+                        <ul style="color: #666; line-height: 2;">
+                            <li><strong>Live Data:</strong> Fetches Bitcoin price from CoinGecko API in real-time</li>
+                            <li><strong>AI Analysis:</strong> Powered by OpenAI's GPT-4 model for intelligent summarization</li>
+                            <li><strong>Key Metrics:</strong> Price in USD, 24h change, market cap, and last update time</li>
+                            <li><strong>Accuracy:</strong> AI uses ONLY official API data, never estimates or guesses</li>
+                            <li><strong>Auto-Refresh:</strong> Refresh button fetches the latest Bitcoin data instantly</li>
+                        </ul>
+                    </section>
+
+                    <!-- Price Details Section -->
+                    <section style="margin-top: 30px; padding: 30px; background: #f0f4ff; border-radius: 10px; border-left: 4px solid #667eea;">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">What's Included</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Current Price:</strong> Bitcoin's latest USD price</p>
+                                <p><strong>24h Change:</strong> Percentage change over 24 hours</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Market Cap:</strong> Total market capitalization</p>
+                                <p><strong>Last Updated:</strong> Timestamp of latest update</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-text">
+                        <p>&copy; 2024 Crypto Trading. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-use.html">Terms of Use</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            $(".loader").fadeOut();
+            $("#preloder").delay(400).fadeOut("slow");
+        });
+
+        function toggleRawData() {
+            const rawDataDiv = document.getElementById('rawData');
+            if (rawDataDiv.style.display === 'none') {
+                rawDataDiv.style.display = 'block';
+            } else {
+                rawDataDiv.style.display = 'none';
+            }
+        }
+
+        function loadBitcoinSummary() {
+            // Show loading state
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('summaryState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+
+            // Fetch from API
+            fetch('api/bitcoin-ai-summary.php?use_ai=true')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        showError(data.message || 'An error occurred');
+                    } else if (data.success) {
+                        showSummary(data);
+                    } else {
+                        showError('Unexpected response format');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    showError('Failed to load Bitcoin summary: ' + error.message);
+                });
+        }
+
+        function showSummary(data) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('summaryState').style.display = 'block';
+
+            // Display summary
+            document.getElementById('summaryText').textContent = data.summary || 'No summary available';
+            
+            // Display timestamp
+            const now = new Date();
+            document.getElementById('updateTime').textContent = now.toLocaleString();
+
+            // Display raw data if available
+            if (data.raw_data && Object.keys(data.raw_data).length > 0) {
+                document.getElementById('rawData').textContent = JSON.stringify(data.raw_data, null, 2);
+            }
+
+            // Show success badge if using AI
+            if (!data.ai_error) {
+                const successBadge = '<div class="success-badge">✓ Powered by GPT-4 AI</div>';
+                if (!document.getElementById('summaryState').innerHTML.includes('success-badge')) {
+                    document.getElementById('summaryState').insertAdjacentHTML('beforeend', successBadge);
+                }
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('summaryState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            
+            document.getElementById('errorMessage').textContent = '⚠ ' + message;
+        }
+
+        // Load summary when page loads
+        document.addEventListener('DOMContentLoaded', loadBitcoinSummary);
+    </script>
+</body>
+</html>

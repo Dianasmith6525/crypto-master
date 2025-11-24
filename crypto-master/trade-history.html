@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade History - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .trade-history-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+        .navbar-dashboard {
+            background: rgba(255,255,255,0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .navbar-dashboard .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .trade-history-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .page-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4e63d7;
+            margin-bottom: 5px;
+        }
+        .stat-subtext {
+            font-size: 13px;
+            color: #999;
+        }
+        .stat-positive {
+            color: #4CAF50;
+        }
+        .stat-negative {
+            color: #dc2626;
+        }
+        
+        /* Filters Card */
+        .filters-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .filters-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .filter-input {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .filter-input:focus {
+            outline: none;
+            border-color: #4e63d7;
+        }
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* Trades Table */
+        .trades-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .table-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .export-btn {
+            background: #4e63d7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .export-btn:hover {
+            background: #3d4fc7;
+        }
+        .trades-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+        .trades-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .trades-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+        .trades-table tr:hover {
+            background: #f8f9fa;
+        }
+        .trade-type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .trade-buy {
+            background: #d4edda;
+            color: #155724;
+        }
+        .trade-sell {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .crypto-name {
+            font-weight: 600;
+            color: #4e63d7;
+        }
+        .no-trades {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .no-trades i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        .no-trades h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .loading i {
+            font-size: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="trade-history-page">
+        <!-- Navigation -->
+        <nav class="navbar-dashboard">
+            <div class="container">
+                <div class="logo">CryptoTrade</div>
+                <div class="nav-links">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="watchlist.html">Watchlist</a>
+                    <a href="alerts.html">Alerts</a>
+                    <a href="trade-history.html" style="background: rgba(255,255,255,0.2);">Trade History</a>
+                    <a href="charts.html">📊 Charts</a>
+                    <a href="analytics.html">📈 Analytics</a>
+                    <a href="news.html">📰 News</a>
+                    <a href="two-factor-auth.html">🔒 2FA</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="trade-history-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fa fa-history"></i> Trade History</h1>
+                <p>View your complete trading activity and performance statistics</p>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Trades</div>
+                    <div class="stat-value" id="totalTrades">-</div>
+                    <div class="stat-subtext"><span id="totalBuys">-</span> Buys | <span id="totalSells">-</span> Sells</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Volume</div>
+                    <div class="stat-value" id="totalVolume">$0.00</div>
+                    <div class="stat-subtext">Across all trades</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Fees Paid</div>
+                    <div class="stat-value" id="totalFees">$0.00</div>
+                    <div class="stat-subtext">Transaction fees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Net P/L</div>
+                    <div class="stat-value" id="netPL">$0.00</div>
+                    <div class="stat-subtext" id="plSubtext">Since inception</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-card">
+                <div class="filters-title"><i class="fa fa-filter"></i> Filter Trades</div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Cryptocurrency</label>
+                        <select id="filterCrypto" class="filter-input">
+                            <option value="">All Cryptocurrencies</option>
+                            <option value="bitcoin">Bitcoin (BTC)</option>
+                            <option value="ethereum">Ethereum (ETH)</option>
+                            <option value="litecoin">Litecoin (LTC)</option>
+                            <option value="ripple">Ripple (XRP)</option>
+                            <option value="cardano">Cardano (ADA)</option>
+                            <option value="polkadot">Polkadot (DOT)</option>
+                            <option value="dogecoin">Dogecoin (DOGE)</option>
+                            <option value="solana">Solana (SOL)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Trade Type</label>
+                        <select id="filterType" class="filter-input">
+                            <option value="">All Types</option>
+                            <option value="buy">Buy Only</option>
+                            <option value="sell">Sell Only</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Start Date</label>
+                        <input type="date" id="filterStartDate" class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">End Date</label>
+                        <input type="date" id="filterEndDate" class="filter-input">
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="crypto-btn-primary" onclick="applyFilters()">
+                        <i class="fa fa-search"></i> Apply Filters
+                    </button>
+                    <button class="crypto-btn-secondary" onclick="resetFilters()">
+                        <i class="fa fa-times"></i> Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trades Table -->
+            <div class="trades-card">
+                <div class="table-header">
+                    <div class="table-title"><i class="fa fa-list"></i> Trading Activity</div>
+                    <button class="export-btn" onclick="exportToCSV()">
+                        <i class="fa fa-download"></i> Export to CSV
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <div id="loadingIndicator" class="loading">
+                        <i class="fa fa-spinner"></i>
+                        <p>Loading trade history...</p>
+                    </div>
+
+                    <table class="trades-table" id="tradesTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Cryptocurrency</th>
+                                <th>Quantity</th>
+                                <th>Price/Unit</th>
+                                <th>Total Amount</th>
+                                <th>Fees</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tradesTableBody">
+                            <!-- Trades will be loaded here -->
+                        </tbody>
+                    </table>
+
+                    <div id="noTrades" class="no-trades" style="display: none;">
+                        <i class="fa fa-inbox"></i>
+                        <h3>No Trades Found</h3>
+                        <p>You haven't made any trades yet, or no trades match your filter criteria.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        let allTrades = [];
+        let currentStats = {};
+
+        // Check authentication on page load
+        $(document).ready(function() {
+            // Check if user is logged in (you can implement session check)
+            loadTradeHistory();
+            loadStatistics();
+        });
+
+        /**
+         * Load trade history from API
+         */
+        function loadTradeHistory() {
+            const filters = getFilters();
+            const queryParams = new URLSearchParams(filters).toString();
+            
+            $('#loadingIndicator').show();
+            $('#tradesTable').hide();
+            $('#noTrades').hide();
+
+            $.ajax({
+                url: `api/trade-history.php?${queryParams}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('#loadingIndicator').hide();
+                    
+                    if (response.success) {
+                        allTrades = response.trades;
+                        displayTrades(allTrades);
+                    } else {
+                        alert('Error loading trades: ' + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    $('#loadingIndicator').hide();
+                    if (xhr.status === 401) {
+                        alert('Please login to view your trade history');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Error loading trade history');
+                    }
+                }
+            });
+        }
+
+        /**
+         * Load statistics from API
+         */
+        function loadStatistics() {
+            const filters = getFilters();
+            filters.action = 'stats';
+            const queryParams = new URLSearchParams(filters).toString();
+
+            $.ajax({
+                url: `api/trade-history.php?${queryParams}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        currentStats = response.statistics;
+                        displayStatistics(currentStats);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error loading statistics');
+                }
+            });
+        }
+
+        /**
+         * Display trades in table
+         */
+        function displayTrades(trades) {
+            const tbody = $('#tradesTableBody');
+            tbody.empty();
+
+            if (trades.length === 0) {
+                $('#noTrades').show();
+                return;
+            }
+
+            $('#tradesTable').show();
+
+            trades.forEach(trade => {
+                const tradeBadge = trade.trade_type === 'buy' 
+                    ? '<span class="trade-type-badge trade-buy">Buy</span>'
+                    : '<span class="trade-type-badge trade-sell">Sell</span>';
+
+                const cryptoName = formatCryptoName(trade.crypto_type);
+                const tradeDate = new Date(trade.trade_date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const row = `
+                    <tr>
+                        <td>${tradeDate}</td>
+                        <td>${tradeBadge}</td>
+                        <td><span class="crypto-name">${cryptoName}</span></td>
+                        <td>${trade.quantity.toFixed(8)}</td>
+                        <td>$${trade.price_per_unit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td>$${trade.total_amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td>$${trade.fees.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td>${trade.notes || '-'}</td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        /**
+         * Display statistics
+         */
+        function displayStatistics(stats) {
+            $('#totalTrades').text(stats.total_trades || 0);
+            $('#totalBuys').text(stats.total_buys || 0);
+            $('#totalSells').text(stats.total_sells || 0);
+            $('#totalVolume').text('$' + (stats.total_volume || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+            $('#totalFees').text('$' + (stats.total_fees || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+            
+            const netPL = stats.net_profit_loss || 0;
+            const plElement = $('#netPL');
+            const plSubtext = $('#plSubtext');
+            
+            if (netPL > 0) {
+                plElement.text('+$' + netPL.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                plElement.addClass('stat-positive').removeClass('stat-negative');
+                plSubtext.html('<i class="fa fa-arrow-up"></i> Profit');
+            } else if (netPL < 0) {
+                plElement.text('-$' + Math.abs(netPL).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                plElement.addClass('stat-negative').removeClass('stat-positive');
+                plSubtext.html('<i class="fa fa-arrow-down"></i> Loss');
+            } else {
+                plElement.text('$0.00');
+                plElement.removeClass('stat-positive stat-negative');
+                plSubtext.text('No trades');
+            }
+        }
+
+        /**
+         * Get current filter values
+         */
+        function getFilters() {
+            return {
+                crypto_type: $('#filterCrypto').val(),
+                trade_type: $('#filterType').val(),
+                start_date: $('#filterStartDate').val(),
+                end_date: $('#filterEndDate').val()
+            };
+        }
+
+        /**
+         * Apply filters
+         */
+        function applyFilters() {
+            loadTradeHistory();
+            loadStatistics();
+        }
+
+        /**
+         * Reset filters
+         */
+        function resetFilters() {
+            $('#filterCrypto').val('');
+            $('#filterType').val('');
+            $('#filterStartDate').val('');
+            $('#filterEndDate').val('');
+            applyFilters();
+        }
+
+        /**
+         * Export trades to CSV
+         */
+        function exportToCSV() {
+            if (allTrades.length === 0) {
+                alert('No trades to export');
+                return;
+            }
+
+            // Create CSV content
+            let csv = 'Date,Type,Cryptocurrency,Quantity,Price per Unit,Total Amount,Fees,Notes\n';
+            
+            allTrades.forEach(trade => {
+                const date = new Date(trade.trade_date).toLocaleString();
+                const crypto = formatCryptoName(trade.crypto_type);
+                csv += `"${date}","${trade.trade_type.toUpperCase()}","${crypto}",${trade.quantity},${trade.price_per_unit},${trade.total_amount},${trade.fees},"${trade.notes || ''}"\n`;
+            });
+
+            // Download CSV file
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `trade-history-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        /**
+         * Format cryptocurrency name
+         */
+        function formatCryptoName(crypto) {
+            const names = {
+                'bitcoin': 'Bitcoin (BTC)',
+                'ethereum': 'Ethereum (ETH)',
+                'litecoin': 'Litecoin (LTC)',
+                'ripple': 'Ripple (XRP)',
+                'cardano': 'Cardano (ADA)',
+                'polkadot': 'Polkadot (DOT)',
+                'dogecoin': 'Dogecoin (DOGE)',
+                'solana': 'Solana (SOL)'
+            };
+            return names[crypto.toLowerCase()] || crypto;
+        }
+
+        /**
+         * Logout function
+         */
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

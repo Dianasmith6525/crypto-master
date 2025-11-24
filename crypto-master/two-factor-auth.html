@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication - Crypto Trading Platform</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .twofa-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+        .navbar-dashboard {
+            background: rgba(255,255,255,0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .navbar-dashboard .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .twofa-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        .page-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .settings-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .settings-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .settings-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .status-badge.enabled {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+        .status-badge.disabled {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .qr-code-img {
+            max-width: 250px;
+            margin: 20px auto;
+            display: block;
+            border: 5px solid white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .secret-key {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4e63d7;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        
+        /* Backup Codes */
+        .backup-codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .backup-code {
+            background: #f0f0f0;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border: 2px dashed #ccc;
+        }
+        
+        /* Steps */
+        .setup-steps {
+            margin: 25px 0;
+        }
+        .setup-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: start;
+        }
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: #4e63d7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .step-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .step-content p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #4e63d7;
+            box-shadow: 0 0 0 3px rgba(78,99,215,0.1);
+        }
+        .verification-input {
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 8px;
+            font-family: monospace;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        /* Buttons */
+        .btn-action {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #4e63d7;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #3d4fc7;
+        }
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #45a049;
+        }
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        /* Alert Messages */
+        .alert-msg {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-success {
+            background: #e8f5e9;
+            color: #4caf50;
+            border-left: 4px solid #4caf50;
+        }
+        .alert-error {
+            background: #ffebee;
+            color: #f44336;
+            border-left: 4px solid #f44336;
+        }
+        .alert-warning {
+            background: #fff3e0;
+            color: #ff9800;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="twofa-page">
+        <!-- Navigation -->
+        <nav class="navbar-dashboard">
+            <div class="container">
+                <div class="logo">CryptoTrade</div>
+                <div class="nav-links">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="watchlist.html">Watchlist</a>
+                    <a href="alerts.html">Alerts</a>
+                    <a href="trade-history.html">Trade History</a>
+                    <a href="charts.html">Charts</a>
+                    <a href="analytics.html">Analytics</a>
+                    <a href="news.html">News</a>
+                    <a href="two-factor-auth.html" class="active">2FA</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="twofa-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fa fa-shield"></i> Two-Factor Authentication</h1>
+                <p>Add an extra layer of security to your account</p>
+            </div>
+
+            <!-- Alert Container -->
+            <div id="alertContainer"></div>
+
+            <!-- Current Status -->
+            <div class="settings-card" id="statusSection">
+                <div class="settings-title">
+                    <i class="fa fa-info-circle"></i>
+                    Security Status
+                </div>
+                <div class="settings-description">
+                    Two-factor authentication (2FA) adds an additional layer of security to your account by requiring a verification code from your phone in addition to your password.
+                </div>
+                
+                <div id="statusBadge" class="status-badge disabled">
+                    <i class="fa fa-times-circle"></i>
+                    2FA is currently disabled
+                </div>
+                
+                <div id="enabledControls" class="hidden">
+                    <p>Your account is protected with two-factor authentication.</p>
+                    <button class="btn-action btn-danger" onclick="showDisableForm()">
+                        <i class="fa fa-times"></i> Disable 2FA
+                    </button>
+                    <button class="btn-action btn-secondary" onclick="regenerateBackupCodes()">
+                        <i class="fa fa-refresh"></i> Regenerate Backup Codes
+                    </button>
+                </div>
+                
+                <div id="disabledControls">
+                    <p>Enable 2FA to protect your account from unauthorized access.</p>
+                    <button class="btn-action btn-primary" onclick="startSetup()">
+                        <i class="fa fa-shield"></i> Enable 2FA
+                    </button>
+                </div>
+            </div>
+
+            <!-- Setup Section -->
+            <div class="settings-card hidden" id="setupSection">
+                <div class="settings-title">
+                    <i class="fa fa-mobile"></i>
+                    Setup Two-Factor Authentication
+                </div>
+                
+                <div class="setup-steps">
+                    <div class="setup-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Install an Authenticator App</h4>
+                            <p>Download Google Authenticator, Authy, or Microsoft Authenticator on your mobile device.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Scan the QR Code</h4>
+                            <p>Open your authenticator app and scan the QR code below, or manually enter the secret key.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Enter Verification Code</h4>
+                            <p>Enter the 6-digit code shown in your authenticator app to verify the setup.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="qr-section">
+                    <h3>Scan QR Code</h3>
+                    <img id="qrCodeImg" class="qr-code-img" alt="QR Code">
+                    
+                    <p><strong>Or enter this key manually:</strong></p>
+                    <div id="secretKey" class="secret-key"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Enter 6-Digit Verification Code</label>
+                    <input type="text" id="verificationCode" class="form-input verification-input" maxlength="6" placeholder="000000">
+                </div>
+                
+                <button class="btn-action btn-success" onclick="verifyAndEnable()">
+                    <i class="fa fa-check"></i> Verify & Enable 2FA
+                </button>
+                <button class="btn-action btn-secondary" onclick="cancelSetup()">
+                    <i class="fa fa-times"></i> Cancel
+                </button>
+            </div>
+
+            <!-- Backup Codes Section -->
+            <div class="settings-card hidden" id="backupCodesSection">
+                <div class="settings-title">
+                    <i class="fa fa-key"></i>
+                    Backup Recovery Codes
+                </div>
+                <div class="alert-msg alert-warning">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Save these codes in a safe place. Each code can only be used once.
+                </div>
+                
+                <div class="backup-codes-grid" id="backupCodesGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+                
+                <button class="btn-action btn-primary" onclick="downloadBackupCodes()">
+                    <i class="fa fa-download"></i> Download Codes
+                </button>
+                <button class="btn-action btn-success" onclick="finish2FASetup()">
+                    <i class="fa fa-check"></i> I've Saved My Codes
+                </button>
+            </div>
+
+            <!-- Disable 2FA Form -->
+            <div class="settings-card hidden" id="disableSection">
+                <div class="settings-title">
+                    <i class="fa fa-warning"></i>
+                    Disable Two-Factor Authentication
+                </div>
+                <div class="alert-msg alert-warning">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    This will reduce your account security. Enter your password to confirm.
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Enter your password">
+                </div>
+                
+                <button class="btn-action btn-danger" onclick="confirmDisable2FA()">
+                    <i class="fa fa-times"></i> Disable 2FA
+                </button>
+                <button class="btn-action btn-secondary" onclick="cancelDisable()">
+                    <i class="fa fa-arrow-left"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script>
+        let currentSecret = '';
+        let currentBackupCodes = [];
+
+        $(document).ready(function() {
+            check2FAStatus();
+        });
+
+        function check2FAStatus() {
+            $.ajax({
+                url: 'api/two-factor-auth.php?action=status',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        if (response.enabled) {
+                            $('#statusBadge').removeClass('disabled').addClass('enabled')
+                                .html('<i class="fa fa-check-circle"></i> 2FA is currently enabled');
+                            $('#enabledControls').removeClass('hidden');
+                            $('#disabledControls').addClass('hidden');
+                        } else {
+                            $('#statusBadge').removeClass('enabled').addClass('disabled')
+                                .html('<i class="fa fa-times-circle"></i> 2FA is currently disabled');
+                            $('#enabledControls').addClass('hidden');
+                            $('#disabledControls').removeClass('hidden');
+                        }
+                    }
+                },
+                error: function(xhr) {
+                    if (xhr.status === 401) {
+                        window.location.href = 'login.html';
+                    }
+                }
+            });
+        }
+
+        function startSetup() {
+            $.ajax({
+                url: 'api/two-factor-auth.php?action=setup',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        currentSecret = response.secret;
+                        currentBackupCodes = response.backup_codes;
+                        
+                        $('#qrCodeImg').attr('src', response.qr_code_url);
+                        $('#secretKey').text(response.secret);
+                        
+                        $('#statusSection').addClass('hidden');
+                        $('#setupSection').removeClass('hidden');
+                    }
+                },
+                error: function() {
+                    showAlert('Error starting setup', 'error');
+                }
+            });
+        }
+
+        function verifyAndEnable() {
+            const code = $('#verificationCode').val().trim();
+            
+            if (code.length !== 6) {
+                showAlert('Please enter a 6-digit code', 'error');
+                return;
+            }
+            
+            $.ajax({
+                url: 'api/two-factor-auth.php?action=enable',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    code: code,
+                    backup_codes: currentBackupCodes
+                }),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        $('#setupSection').addClass('hidden');
+                        showBackupCodes();
+                    } else {
+                        showAlert(response.message, 'error');
+                    }
+                },
+                error: function() {
+                    showAlert('Error verifying code', 'error');
+                }
+            });
+        }
+
+        function showBackupCodes() {
+            let html = '';
+            currentBackupCodes.forEach(code => {
+                html += `<div class="backup-code">${code}</div>`;
+            });
+            $('#backupCodesGrid').html(html);
+            $('#backupCodesSection').removeClass('hidden');
+        }
+
+        function downloadBackupCodes() {
+            const text = 'CryptoTrade 2FA Backup Codes\n' +
+                        '================================\n\n' +
+                        currentBackupCodes.join('\n') +
+                        '\n\nKeep these codes safe. Each can only be used once.';
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cryptotrade-backup-codes.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function finish2FASetup() {
+            showAlert('2FA enabled successfully!', 'success');
+            $('#backupCodesSection').addClass('hidden');
+            $('#statusSection').removeClass('hidden');
+            check2FAStatus();
+        }
+
+        function showDisableForm() {
+            $('#statusSection').addClass('hidden');
+            $('#disableSection').removeClass('hidden');
+        }
+
+        function confirmDisable2FA() {
+            const password = $('#confirmPassword').val();
+            
+            if (!password) {
+                showAlert('Please enter your password', 'error');
+                return;
+            }
+            
+            $.ajax({
+                url: 'api/two-factor-auth.php?action=disable',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ password: password }),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        showAlert('2FA disabled successfully', 'success');
+                        $('#disableSection').addClass('hidden');
+                        $('#statusSection').removeClass('hidden');
+                        check2FAStatus();
+                        $('#confirmPassword').val('');
+                    } else {
+                        showAlert(response.message, 'error');
+                    }
+                },
+                error: function() {
+                    showAlert('Error disabling 2FA', 'error');
+                }
+            });
+        }
+
+        function cancelDisable() {
+            $('#disableSection').addClass('hidden');
+            $('#statusSection').removeClass('hidden');
+            $('#confirmPassword').val('');
+        }
+
+        function cancelSetup() {
+            $('#setupSection').addClass('hidden');
+            $('#statusSection').removeClass('hidden');
+            $('#verificationCode').val('');
+        }
+
+        function regenerateBackupCodes() {
+            if (!confirm('This will invalidate all existing backup codes. Continue?')) {
+                return;
+            }
+            
+            $.ajax({
+                url: 'api/two-factor-auth.php?action=regenerate_backup',
+                method: 'POST',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        currentBackupCodes = response.backup_codes;
+                        $('#statusSection').addClass('hidden');
+                        showBackupCodes();
+                    }
+                },
+                error: function() {
+                    showAlert('Error regenerating codes', 'error');
+                }
+            });
+        }
+
+        function showAlert(message, type) {
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            
+            const html = `
+                <div class="alert-msg ${alertClass}">
+                    <i class="fa ${iconClass}"></i>
+                    ${message}
+                </div>
+            `;
+            
+            $('#alertContainer').html(html);
+            setTimeout(() => $('#alertContainer').empty(), 5000);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Alerts - CryptoTrade</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f5f7fa;
+        }
+        .alerts-container {
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .alerts-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .alerts-header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        .alerts-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .create-alert-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .btn-create-alert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-create-alert:hover {
+            transform: translateY(-2px);
+        }
+        .btn-create-alert:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .alerts-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .alerts-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .alert-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .alert-card.triggered {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        .alert-info {
+            flex: 1;
+        }
+        .alert-crypto {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .alert-details {
+            color: #666;
+            font-size: 14px;
+        }
+        .alert-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        .badge-above {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .badge-below {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .badge-triggered {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-delete {
+            background: #f59e0b;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .btn-delete:hover {
+            background: #d97706;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .feedback-message {
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .feedback-message.success {
+            background: #dcfce7;
+            color: #16a34a;
+            display: block;
+        }
+        .feedback-message.error {
+            background: #fee2e2;
+            color: #dc2626;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .alert-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .alert-actions {
+                margin-top: 15px;
+                width: 100%;
+            }
+            .btn-delete {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a href="index.html" class="site-logo">CryptoTrade</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-label="Toggle navigation menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="watchlist.html">Watchlist</a></li>
+                        <li><a href="alerts.html" class="active">Alerts</a></li>
+                        <li><a href="trade-history.html">Trade History</a></li>
+                        <li><a href="charts.html">Charts</a></li>
+                        <li><a href="analytics.html">Analytics</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="two-factor-auth.html">2FA</a></li>
+                        <li><a href="logout.php">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="alerts-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="alerts-header">
+                <h1><i class="fas fa-bell"></i> Price Alerts</h1>
+                <p>Set price alerts and get notified when your favorite cryptocurrencies reach your target prices</p>
+            </div>
+
+            <!-- Feedback Messages -->
+            <div id="feedback-message" class="feedback-message"></div>
+
+            <!-- Create Alert Form -->
+            <div class="create-alert-form">
+                <h2 class="form-section-title"><i class="fas fa-plus-circle"></i> Create New Alert</h2>
+                
+                <form id="create-alert-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="crypto-select">Select Cryptocurrency</label>
+                            <select id="crypto-select" required>
+                                <option value="">-- Select Crypto --</option>
+                                <option value="bitcoin">Bitcoin (BTC)</option>
+                                <option value="ethereum">Ethereum (ETH)</option>
+                                <option value="litecoin">Litecoin (LTC)</option>
+                                <option value="ripple">XRP</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alert-type">Alert Type</label>
+                            <select id="alert-type" required>
+                                <option value="">-- Select Type --</option>
+                                <option value="above">Price Goes ABOVE</option>
+                                <option value="below">Price Goes BELOW</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price-threshold">Price Threshold (USD)</label>
+                            <input type="number" id="price-threshold" placeholder="e.g., 50000" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-full-width">
+                            <button type="submit" class="btn-create-alert">Create Alert</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Alerts Tabs -->
+            <div class="alerts-tabs">
+                <button class="tab-btn active" data-tab="active"><i class="fas fa-play-circle"></i> Active Alerts</button>
+                <button class="tab-btn" data-tab="triggered"><i class="fas fa-check-circle"></i> Triggered</button>
+                <button class="tab-btn" data-tab="all"><i class="fas fa-list"></i> All Alerts</button>
+            </div>
+
+            <!-- Active Alerts -->
+            <div id="active-alerts" class="tab-content active">
+                <div class="alerts-grid" id="active-alerts-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon"><i class="fas fa-bell-slash"></i></div>
+                        <h3>No Active Alerts</h3>
+                        <p>Create your first price alert above to get started</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Triggered Alerts -->
+            <div id="triggered-alerts" class="tab-content">
+                <div class="alerts-grid" id="triggered-alerts-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                        <h3>No Triggered Alerts</h3>
+                        <p>Your triggered alerts will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Alerts -->
+            <div id="all-alerts" class="tab-content">
+                <div class="alerts-grid" id="all-alerts-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                        <h3>No Alerts</h3>
+                        <p>Create your first price alert above to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        // Check authentication
+        $(document).ready(function() {
+            if (!localStorage.getItem('user_email')) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load alerts on page load
+            loadAlerts('active');
+
+            // Tab switching
+            $('.tab-btn').on('click', function() {
+                const tab = $(this).data('tab');
+                switchTab(tab);
+            });
+
+            // Form submission
+            $('#create-alert-form').on('submit', createAlert);
+
+            // Delete alert buttons (delegated)
+            $(document).on('click', '.btn-delete', function() {
+                const alertId = $(this).data('alert-id');
+                deleteAlert(alertId);
+            });
+        });
+
+        function switchTab(tabName) {
+            // Update active tab button
+            $('.tab-btn').removeClass('active');
+            $('.tab-btn[data-tab="' + tabName + '"]').addClass('active');
+
+            // Show/hide tab content
+            $('.tab-content').removeClass('active');
+            $('#' + tabName + '-alerts').addClass('active');
+
+            // Load alerts for this tab
+            loadAlerts(tabName);
+        }
+
+        function loadAlerts(filter) {
+            $.ajax({
+                type: 'GET',
+                url: 'get-alerts.php?filter=' + filter,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        displayAlerts(response.alerts, filter);
+                    }
+                },
+                error: function() {
+                    showMessage('Error loading alerts', 'error');
+                }
+            });
+        }
+
+        function displayAlerts(alerts, filter) {
+            let containerSelector = '#' + (filter === 'active' ? 'active' : filter === 'triggered' ? 'triggered' : 'all') + '-alerts-list';
+            let container = $(containerSelector);
+            container.empty();
+
+            if (alerts.length === 0) {
+                container.html(`
+                    <div class="empty-state">
+                        <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                        <h3>No ${filter === 'active' ? 'Active' : 'Triggered'} Alerts</h3>
+                        <p>${filter === 'active' ? 'Create your first price alert to get started' : 'Your triggered alerts will appear here'}</p>
+                    </div>
+                `);
+                return;
+            }
+
+            alerts.forEach(alert => {
+                const isTriggered = alert.status === 'triggered';
+                const badgeClass = isTriggered ? 'badge-triggered' : (alert.alert_type === 'above' ? 'badge-above' : 'badge-below');
+                const badgeText = isTriggered ? 'Triggered' : alert.alert_type.toUpperCase();
+                
+                const createdDate = new Date(alert.created_at).toLocaleDateString();
+                const triggeredDate = alert.triggered_at ? new Date(alert.triggered_at).toLocaleDateString() : '';
+                
+                const alertHtml = `
+                    <div class="alert-card ${isTriggered ? 'triggered' : ''}">
+                        <div class="alert-info">
+                            <div class="alert-crypto">
+                                <i class="fas fa-coins"></i> ${alert.crypto_name}
+                            </div>
+                            <div class="alert-details">
+                                <span class="alert-badge ${badgeClass}">${badgeText}</span>
+                                <span>Price ${alert.alert_type === 'above' ? '&gt;' : '&lt;'} $${Number(alert.price_threshold).toFixed(2)}</span>
+                                <span style="margin-left: 15px; color: #999;">
+                                    Created: ${createdDate}
+                                    ${isTriggered && triggeredDate ? '<br>Triggered: ' + triggeredDate : ''}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn-delete" data-alert-id="${alert.id}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.append(alertHtml);
+            });
+        }
+
+        function createAlert(e) {
+            e.preventDefault();
+
+            const cryptoSelect = $('#crypto-select').val();
+            const alertType = $('#alert-type').val();
+            const priceThreshold = $('#price-threshold').val();
+
+            if (!cryptoSelect || !alertType || !priceThreshold) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+
+            // Get crypto name
+            const cryptoName = $('#crypto-select option:selected').text().split(' (')[0];
+
+            const btn = $('#create-alert-form button[type="submit"]');
+            btn.prop('disabled', true).text('Creating...');
+
+            $.ajax({
+                type: 'POST',
+                url: 'create-alert.php',
+                data: {
+                    crypto_id: cryptoSelect,
+                    crypto_name: cryptoName,
+                    alert_type: alertType,
+                    price_threshold: priceThreshold
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('Alert created successfully!', 'success');
+                        $('#create-alert-form')[0].reset();
+                        loadAlerts('active');
+                    } else {
+                        showMessage(response.message, 'error');
+                    }
+                    btn.prop('disabled', false).text('Create Alert');
+                },
+                error: function(xhr) {
+                    const response = xhr.responseJSON;
+                    showMessage(response.message || 'Error creating alert', 'error');
+                    btn.prop('disabled', false).text('Create Alert');
+                }
+            });
+        }
+
+        function deleteAlert(alertId) {
+            if (!confirm('Are you sure you want to delete this alert?')) {
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'delete-alert.php',
+                data: { alert_id: alertId },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        showMessage('Alert deleted successfully', 'success');
+                        loadAlerts($('.tab-btn.active').data('tab'));
+                    } else {
+                        showMessage(response.message, 'error');
+                    }
+                },
+                error: function() {
+                    showMessage('Error deleting alert', 'error');
+                }
+            });
+        }
+
+        function showMessage(message, type) {
+            const feedbackElement = $('#feedback-message');
+            feedbackElement
+                .removeClass('success error')
+                .addClass(type)
+                .text(message)
+                .fadeIn();
+
+            setTimeout(() => {
+                feedbackElement.fadeOut();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

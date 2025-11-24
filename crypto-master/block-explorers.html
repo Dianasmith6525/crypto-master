@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Block Explorers - Cryptocurrency Trading Platform</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Access blockchain explorers to view transactions, addresses, and blocks on major cryptocurrency networks.">
+	<meta name="keywords" content="block explorer, blockchain explorer, bitcoin explorer, ethereum explorer">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Crypto Trading Platform">
+	<link href="img/favicon.ico" rel="shortcut icon"/>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/themify-icons.css"/>
+	<link rel="stylesheet" href="css/animate.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
+
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section clearfix">
+		<div class="container-fluid">
+			<a href="index.html" class="site-logo">
+				<img src="img/logo.png" alt="">
+			</a>
+			<div class="responsive-bar" role="button" aria-label="Toggle Navigation Menu"><i class="fa fa-bars"></i></div>
+			<div class="auth-links">
+				<a href="dashboard.html" class="user" title="Dashboard" id="dashboardLink" style="display: none;"><i class="fa fa-home"></i></a>
+				<a href="login.html" class="user" title="Sign In" id="loginLink"><i class="fa fa-user"></i></a>
+				<a href="register.html" class="site-btn" id="signupLink">Sign Up Free</a>
+				<a href="#" class="site-btn" id="logoutLink" style="display: none; background: #dc3545;" onclick="logout_user(); return false;">Logout</a>
+			</div>
+			<nav class="main-menu">
+				<ul class="menu-list">
+					<li><a href="index.html#features">Solution</a></li>
+					<li><a href="index.html#features">Features</a></li>
+					<li><a href="blog.html">News</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Breadcrumb section -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb-text">
+						<h2>Block Explorers</h2>
+						<p><a href="index.html">Home</a> > <a href="#">Block Explorers</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb section end -->
+
+	<!-- Content section -->
+	<section class="page-content spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-article">
+						<h2>Blockchain Explorers</h2>
+						<p class="lead">View and analyze transactions, addresses, and blocks on various blockchain networks.</p>
+
+						<h3>What is a Block Explorer?</h3>
+						<p>A block explorer is a web-based tool that allows you to view all transactions and data recorded on a blockchain. It provides complete transparency and allows anyone to verify transactions, check wallet balances, and explore blockchain history.</p>
+
+						<h3>Major Block Explorers</h3>
+
+						<div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+							<h4 style="margin-top: 0;">Bitcoin Blockchain</h4>
+							<table class="table table-sm table-borderless">
+								<tr>
+									<td><strong>Blockchain.com</strong></td>
+									<td><a href="https://www.blockchain.com/btc" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Most popular Bitcoin explorer with comprehensive data</td>
+								</tr>
+								<tr>
+									<td><strong>Blockchair</strong></td>
+									<td><a href="https://blockchair.com/bitcoin" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Multi-blockchain explorer with advanced filters</td>
+								</tr>
+								<tr>
+									<td><strong>mempool.space</strong></td>
+									<td><a href="https://mempool.space/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Real-time Bitcoin mempool and fee visualization</td>
+								</tr>
+							</table>
+						</div>
+
+						<div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #764ba2;">
+							<h4 style="margin-top: 0;">Ethereum Blockchain</h4>
+							<table class="table table-sm table-borderless">
+								<tr>
+									<td><strong>Etherscan</strong></td>
+									<td><a href="https://etherscan.io/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Leading Ethereum explorer with contract verification</td>
+								</tr>
+								<tr>
+									<td><strong>Blockchair</strong></td>
+									<td><a href="https://blockchair.com/ethereum" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Ethereum network explorer with advanced analytics</td>
+								</tr>
+								<tr>
+									<td><strong>Bloxscan</strong></td>
+									<td><a href="https://bloxscan.io/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Lightweight Ethereum explorer with transaction details</td>
+								</tr>
+							</table>
+						</div>
+
+						<div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+							<h4 style="margin-top: 0;">Other Networks</h4>
+							<table class="table table-sm table-borderless">
+								<tr>
+									<td><strong>SolScan</strong></td>
+									<td><a href="https://solscan.io/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Solana blockchain explorer</td>
+								</tr>
+								<tr>
+									<td><strong>Cardanoscan</strong></td>
+									<td><a href="https://cardanoscan.io/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Cardano network explorer</td>
+								</tr>
+								<tr>
+									<td><strong>Polkascan</strong></td>
+									<td><a href="https://polkascan.io/" target="_blank" class="site-btn" style="padding: 5px 15px; font-size: 12px;">Visit</a></td>
+									<td>Polkadot ecosystem explorer</td>
+								</tr>
+							</table>
+						</div>
+
+						<h3>How to Use a Block Explorer</h3>
+						<ol>
+							<li><strong>Search for an Address:</strong> Paste a wallet address to see all transactions and balance</li>
+							<li><strong>Look Up a Transaction:</strong> Enter a transaction hash (TXID) to view details</li>
+							<li><strong>View Blocks:</strong> Browse blocks in order to see when transactions occurred</li>
+							<li><strong>Verify Transactions:</strong> Check confirmation status and mining details</li>
+							<li><strong>Analyze Addresses:</strong> Track account activity and transaction history</li>
+						</ol>
+
+						<h3>Common Uses</h3>
+						<ul>
+							<li><strong>Verify Deposits:</strong> Confirm your deposit has been received and confirmed</li>
+							<li><strong>Track Withdrawals:</strong> Monitor where your sent coins are heading</li>
+							<li><strong>Check Confirmations:</strong> See how many times a transaction has been confirmed</li>
+							<li><strong>Estimate Fees:</strong> View current network fees based on transaction type</li>
+							<li><strong>Contract Interaction:</strong> Review smart contract code and execution</li>
+							<li><strong>Tax Compliance:</strong> Document all transactions for tax reporting</li>
+						</ul>
+
+						<h3>Understanding Transaction Details</h3>
+						<div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+							<ul>
+								<li><strong>Transaction ID (TXID/Hash):</strong> Unique identifier for the transaction</li>
+								<li><strong>Status:</strong> Pending, Confirmed, or Failed</li>
+								<li><strong>From/To:</strong> Sender and recipient addresses</li>
+								<li><strong>Amount:</strong> How much crypto was transferred</li>
+								<li><strong>Fee:</strong> Network fee paid for the transaction</li>
+								<li><strong>Block Height:</strong> Which block includes this transaction</li>
+								<li><strong>Confirmations:</strong> Number of blocks mined after this transaction</li>
+								<li><strong>Timestamp:</strong> Exact time the transaction was processed</li>
+							</ul>
+						</div>
+
+						<div style="background: #f0f4ff; padding: 20px; border-radius: 8px; margin: 30px 0;">
+							<h4 style="margin-top: 0;">Track Your Transactions</h4>
+							<p>Use our dashboard to link your addresses and automatically track all transactions across multiple explorers.</p>
+							<a href="dashboard.html" class="site-btn">Go to Dashboard</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Content section end -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="container">
+			<div class="row spad">
+				<div class="col-md-6 col-lg-3 footer-widget">
+					<img src="img/logo.png" class="mb-4" alt="">
+					<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia dese mollit anim id est laborum.</p>
+					<span>Copyright &copy;2025 All rights reserved</span>
+				</div>
+				<div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+					<h5 class="widget-title">Resources</h5>
+					<ul>
+						<li><a href="how-to-buy.html">How to Buy Coin</a></li>
+						<li><a href="coin-overview.html">Coin Overview</a></li>
+						<li><a href="blog.html">Blog News</a></li>
+						<li><a href="how-to-sell.html">How to Sell Coin</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+					<h5 class="widget-title">Quick Links</h5>
+					<ul>
+						<li><a href="network-stats.html">Network Stats</a></li>
+						<li><a href="block-explorers.html">Block Explorers</a></li>
+						<li><a href="governance.html">Governance</a></li>
+						<li><a href="exchange-markets.html">Exchange Markets</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
+					<h5 class="widget-title">Follow Us</h5>
+					<div class="social">
+						<a href="#" class="facebook" title="Follow us on Facebook"><i class="fa fa-facebook"></i></a>
+						<a href="#" class="google" title="Follow us on Google+"><i class="fa fa-google-plus"></i></a>
+						<a href="#" class="instagram" title="Follow us on Instagram"><i class="fa fa-instagram"></i></a>
+						<a href="#" class="twitter" title="Follow us on Twitter"><i class="fa fa-twitter"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="row">
+					<div class="col-lg-12 text-center text-lg-right">
+						<ul class="footer-nav">
+							<li><a href="#" title="Data Processing Agreement">DPA</a></li>
+							<li><a href="#" title="Terms of Use">Terms of Use</a></li>
+							<li><a href="#" title="Privacy Policy">Privacy Policy</a></li>
+							<li><a href="mailto:support@company.com" title="Email Support">support@company.com</a></li>
+							<li><a href="tel:+11234567890" title="Phone Support">(123) 456-7890</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer section end -->
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>
