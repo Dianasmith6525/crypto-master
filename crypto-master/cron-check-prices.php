@@ -3,8 +3,8 @@
  * Price Alert Checker - Cron Job Script
  * This script can be scheduled via cron to run periodically and check prices
  * 
- * Example cron job (run every 5 minutes):
- * (asterisk)/5 (asterisk) (asterisk) (asterisk) (asterisk) php /path/to/website/cron-check-prices.php
+ * Example cron job (run every 5 minutes, replace with actual crontab entry):
+ * @code 0,5,10,15,20,25,30,35,40,45,50,55 * * * * php /path/to/website/cron-check-prices.php
  * 
  * Or via Windows Task Scheduler:
  * C:\php\php.exe C:\path\to\website\cron-check-prices.php
