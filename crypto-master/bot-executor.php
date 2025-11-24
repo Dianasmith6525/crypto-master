@@ -3,7 +3,7 @@
  * Bot Executor - Automated Trading Bot Engine
  * 
  * Run this script via cron job every 5 minutes:
- * */5 * * * * /usr/bin/php /path/to/bot-executor.php >> /path/to/logs/bot-executor.log 2>&1
+ * (asterisk)/5 (asterisk) (asterisk) (asterisk) (asterisk) /usr/bin/php /path/to/bot-executor.php >> /path/to/logs/bot-executor.log 2>&1
  * 
  * Windows Task Scheduler:
  * C:\php\php.exe C:\path\to\bot-executor.php

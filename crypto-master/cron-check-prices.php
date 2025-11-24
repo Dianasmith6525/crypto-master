@@ -4,7 +4,7 @@
  * This script can be scheduled via cron to run periodically and check prices
  * 
  * Example cron job (run every 5 minutes):
- * */5 * * * * php /path/to/website/cron-check-prices.php
+ * (asterisk)/5 (asterisk) (asterisk) (asterisk) (asterisk) php /path/to/website/cron-check-prices.php
  * 
  * Or via Windows Task Scheduler:
  * C:\php\php.exe C:\path\to\website\cron-check-prices.php
